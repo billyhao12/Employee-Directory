@@ -1,6 +1,8 @@
 import React from "react";
 import API from "../utils/API";
 import UserTable from "../components/UserTable";
+import SearchForm from "../components/SearchForm";
+import {Container, Card} from "react-bootstrap";
 
 class Directory extends React.Component {
 
@@ -8,7 +10,12 @@ class Directory extends React.Component {
         name: "",
         role: "",
         manager: "",
-        users: []
+        users: [],
+        search: ""
+    }
+
+    updateSearch = search => {
+        this.setState({ search });
     }
 
     componentDidMount() {
@@ -21,8 +28,19 @@ class Directory extends React.Component {
     }
 
     render() {
-        return <UserTable users={this.state.users} />
+        return (
+            <Container>
+
+                <Card body>
+                    <SearchForm updateSearch={this.updateSearch} />  
+                </Card>
+
+                <UserTable users={this.state.users} search={this.state.search} />
+
+            </Container>
+        );
     }
+
 }
 
 export default Directory;
