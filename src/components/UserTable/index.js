@@ -1,5 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import useLocationSort from "../../utils/hooks/useLocationSort";
 
 function UserTable( props ) {
 
@@ -9,20 +10,26 @@ function UserTable( props ) {
         return !props.search || fullName.toLowerCase().includes( props.search.toLowerCase() );
     }
 
+    const sortByLocation = useLocationSort(props.sort);
+
     return (
 
         <Table striped bordered hover>
             <thead>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone #</th>
-                    <th>Location</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone #</th>
+                    <th scope="col">
+                        Location
+                        <button onClick={() => props.updateSort("asc")}>Asc</button>
+                        <button onClick={() => props.updateSort("desc")}>Desc</button>
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                {props.users.filter( filterBySearch ).map(user => {
+                {props.users.filter( filterBySearch ).sort( sortByLocation ).map(user => {
 
                     return (
                         <tr key={user.id.value}>
